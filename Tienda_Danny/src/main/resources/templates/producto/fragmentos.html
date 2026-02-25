@@ -10,7 +10,7 @@
             <!-- Button trigger modal -->
             <div class='row py-4 mb-2 bg-light'>
                 <div class='col-md-1'></div>
-                <div class='col-md-3' sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class='col-md-3'>
                     <button type="button" class="btn btn-primary"
                             data-bs-toggle="modal" data-bs-target="#agregarProductoModal">
                         <i class="fa-solid fa-plus"></i> [[#{producto.agregar}]]</button>
@@ -95,7 +95,7 @@
                                             <th>[[#{producto.imagen}]]</th>
                                             <th>[[#{producto.categoria}]]</th>
                                             <th>[[#{producto.activo}]]</th>
-                                            <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,9 +106,9 @@
                                             <td class="text-center">[[${p.existencias}]]</td>
                                             <td class="text-end">[[${#numbers.formatCurrency(p.precio*p.existencias)}]]</td>
                                             <td><img th:src="@{${p.rutaImagen}}" alt="noData" height="75"/></td>
-                                            <td>[[${p.categoria.descripcion}]]</td>
+                                            <td>[[${p.categoria.descripcion.idCategoria}]]</td>
                                             <td th:text="${p.activo} ? 'Activa':'Inactiva'"></td>
-                                            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                            <td>
                                                 <button type="button" class="btn btn-danger"
                                                         data-bs-toggle="modal" data-bs-target="#confirmModal"
                                                         th:data-bs-id="${p.idProducto}"
@@ -223,7 +223,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <div class="modal-body">
-                                <p>[[#{accion.confirmar.texto1}]] <span id="modalDescripcion"></span>?</p>
+                                <p>[[#{accion.confirmar.texto1}]] "modalDescripcion"></span>?</p>
                                 <h6>[[#{accion.confirmar.texto2}]]</h6>
                             </div>
                             <div class="modal-footer">
@@ -242,3 +242,4 @@
 
     </body>
 </html>
+ 

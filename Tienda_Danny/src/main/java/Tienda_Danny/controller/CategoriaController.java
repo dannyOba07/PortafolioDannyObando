@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tienda_Danny.controller;
 
 import Tienda_Danny.domain.Categoria;
@@ -37,7 +33,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/nuevo")
-public String nuevo(Model model) {
+     public String nuevo(Model model) {
     model.addAttribute("categoria", new Categoria());
     return "categoria/modifica";
 }
@@ -84,4 +80,5 @@ public String nuevo(Model model) {
     }
 
 }
+
 
