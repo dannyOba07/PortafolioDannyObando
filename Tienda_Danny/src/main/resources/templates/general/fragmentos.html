@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"      
@@ -5,32 +6,25 @@
     <head th:fragment="head">
         <title>TechShop</title>
         <meta charset="UTF-8"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png"/>
+        <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png"/>
+        <link rel="icon" type="image/png" sizes="256x256" href="/fav/favicon-256x256.png"/>
+
+        <!-- Webjars con versión explícita (compatible con Spring Boot 4) -->
         <link rel="stylesheet" href="/webjars/bootstrap/5.3.7/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/webjars/font-awesome/7.0.0/css/all.css"/>
         <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
         <script src="/webjars/popper.js/2.11.7/umd/popper.min.js"></script>
         <script th:src="@{/js/rutinas.js}"></script>
         <script src="/webjars/bootstrap/5.3.7/js/bootstrap.min.js"></script>
+        <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
 
-        <!-- Fragmento #1 que irá en el head de todas las páginas, así se incluye todo lo necesario de configuración-->
-        <head th:fragment="head">
-            <title>TechShop</title>
-            <meta charset="UTF-8"/>
-            <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png"/>
-            <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png"/>
-            <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png"/>
-            <link rel="icon" type="image/png" sizes="256x256" href="/fav/favicon-256x256.png"/>
-            <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-            <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
-            <script th:src="@{/js/rutinas.js}"></script>
-            <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-        </head>
-
-
-        <!-- Fragmento #2  define el encabezado de las páginas, en concreto el menú y enlaces rápidos -->
-        <header th:fragment="header" class="header">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </head>
+    <body>
+        <header th:fragment="header" class="header d-print-none">
             <nav class="navbar navbar-expand-sm p-0">
                 <div class="container">                    
                     <a th:href="@{/}" class="navbar-brand">[[#{aplicacion.titulo}]]</a>
@@ -42,10 +36,10 @@
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/consultas/listado}">[[#{plantilla.consultas}]]</a></li>                                
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                                     [[#{plantilla.admin}]]</a>
-                                <ul class="dropdown-menu"sec:authorize="hasRole('ROLE_ADMIN')">
+                                <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>                                    
                                     <li class="submenu submenu-md dropend">
                                         <a class="dropdown-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -75,7 +69,7 @@
                             </li>
                         </ul>
                         <div id="resultBlock">
-                        </div>         
+                        </div>
                         <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/login}">
@@ -87,7 +81,7 @@
                         <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                             <li class="nav-item my-auto">
                                 <a class="nav-link">
-                                    <img th:src="@{${session.imagenUsuario}}"
+                                    <img th:src="@{${session.imagenUsuario}}" 
                                          alt="your image" height="40" class="rounded-circle"/>
                                     <span sec:authentication="name" class="ms-1"></span>
                                 </a>
@@ -101,7 +95,6 @@
                                 </form>
                             </li>
                         </ul>
-
                     </div>
                 </div>
             </nav>
@@ -116,12 +109,10 @@
             </section>
         </header>
 
-        <!-- Fragmento #3  define el footer de las páginas, aparte de esto se podria incluir enlaces a redes socilaes y demás -->
-        <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
+        <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white d-print-none">
             <p class="lead text-center">[[#{plantilla.derechos}]] &COPY;</p>
         </footer>
 
-        <!-- Fragmentos #4 define una ventana tipo Toast para mostrar mensajes al usuario -->
         <section th:fragment="mostrarToast">
             <div aria-live="polite" aria-atomic="true" 
                  class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">                
@@ -159,5 +150,6 @@
                 </div>
             </div>
         </section>
-        </body>
+
+    </body>
 </html>
